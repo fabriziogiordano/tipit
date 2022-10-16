@@ -11,7 +11,7 @@
     "mv:js": "mv ./public/assets/js/calc.min.js ./public/assets/js/calc.js",
     "mv:css": "mv ./public/assets/css/main.min.css ./public/assets/css/main.css",
     "mv:html": "mv ./public/index.min.html ./public/index.html",
-    "replace:commit": "LAST_COMMIT_SHA=`git log -n1 --format=\"%h\"` && sed -i -e \"s|COMMIT|${LAST_COMMIT_SHA::5}|g\" ./public/index.html",
+    "replace:commit": "sed -i -e \"s|COMMIT|${GITHUB_SHA::5}|g\" ./public/index.html",
     "build": "rm -rf ./public && cp -r ./src ./public && npm run minify && npm run mv:js &&  npm run mv:css && npm run mv:html && npm run replace:commit"
   },
   "repository": {
