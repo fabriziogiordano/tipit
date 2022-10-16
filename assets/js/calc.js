@@ -393,7 +393,6 @@ function isCalculatorVisible() {
 document.addEventListener("DOMContentLoaded", function () {
     clearDisplayText();
     clearResults();
-    $('.content').show();
     attachSwipeEvent();
 });
 
