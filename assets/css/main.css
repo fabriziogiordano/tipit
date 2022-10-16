@@ -34,6 +34,11 @@ table {
   text-align: center;
   font-size: 24px;
 }
+#middle-div div {
+  margin-top: 60px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+}
 
 #bottom-div {
   height: calc(100vh - 90px - 200px);
