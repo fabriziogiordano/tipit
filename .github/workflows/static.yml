@@ -39,6 +39,7 @@ jobs:
           # sed -i -e "s|calc.js|calc.min.js|g" ./index.html
           npm i
           npm run build
+          sed -i -e "s|COMMIT|${GITHUB_SHA::5}|g" ./public/index.html
           rm -rf ./node_modules
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
