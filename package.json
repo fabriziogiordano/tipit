@@ -4,6 +4,10 @@
   "description": "TipiT: The Palindromic Tip Calculator - Web Edition",
   "main": "index.js",
   "scripts": {
+    "minify:js": "minify ./assets/js/calc.js > ./assets/js/calc.min.js",
+    "minify:css": "minify ./assets/css/main.css > ./assets/css/main.min.css",
+    "minify:html": "minify ./index.html > ./index.min.html",
+    "minify": "npm run minify:js && npm run minify:css && npm run minify:html && mv ./index.min.html ./index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,13 +20,14 @@
     "url": "https://github.com/fabriziogiordano/tipit/issues"
   },
   "homepage": "https://github.com/fabriziogiordano/tipit#readme",
-  "dependencies": {
-    "prettier": "^2.7.1"
-  },
   "prettier": {
     "trailingComma": "es5",
     "tabWidth": 2,
     "semi": true,
     "singleQuote": false
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1",
+    "minify": "^9.1.0"
   }
 }
