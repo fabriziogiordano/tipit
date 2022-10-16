@@ -10,10 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-        npm i
-        npm run build
-        sed -i -e "s|COMMIT|${GITHUB_SHA::5}|g" ./public/index.html
-        rm -rf ./node_modules
+          npm i
+          npm run build
+          sed -i -e "s|COMMIT|${GITHUB_SHA::5}|g" ./public/index.html
+          rm -rf ./node_modules
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
