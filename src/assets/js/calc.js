@@ -473,6 +473,7 @@ function closeTipFullScreen() {
 
 // -----------
 
+let galleryAutoScrollId = 0;
 function attachSnapEvents() {
   const gallery = $("#paginated_gallery");
   const gallery_scroller = gallery.querySelector(".gallery_scroller");
@@ -486,9 +487,25 @@ function attachSnapEvents() {
     .addEventListener("click", scrollToPrevPage);
 
   function scrollToNextPage() {
-    gallery_scroller.scrollBy(gallery_item_size, 0);
+    clearInterval(galleryAutoScrollId);
+    scroll(gallery_item_size);
   }
   function scrollToPrevPage() {
-    gallery_scroller.scrollBy(-gallery_item_size, 0);
+    clearInterval(galleryAutoScrollId);
+    scroll(-gallery_item_size);
   }
+  function scroll(left) {
+    gallery_scroller.scrollBy({
+      top: 0,
+      left,
+      behavior: "smooth",
+    });
+  }
+  galleryAutoScrollId = setInterval(() => {
+    scroll(gallery_item_size);
+  }, 3000);
+
+  $("#paginated_gallery").addEventListener("touchmove", () => {
+    clearInterval(galleryAutoScrollId);
+  });
 }

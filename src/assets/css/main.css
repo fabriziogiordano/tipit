@@ -49,10 +49,6 @@ table {
   font-size: 24px;
 }
 
-#middle-div div {
-  margin-top: 15px;
-}
-
 #middle-div .small {
   font-size: 20px;
   color: rgba(255, 255, 255, 0.9);
@@ -238,8 +234,6 @@ em {
 
 .gallery {
   position: relative;
-  max-width: 800px;
-  padding: 0 10px;
 }
 
 .gallery_scroller {
@@ -270,13 +264,13 @@ em {
 }
 
 .gallery_scroller div.card {
-  min-width: 85%;
+  min-width: 100%;
   min-height: 95%;
   border-radius: 10px;
   border: 0px solid red;
   font-size: 16px;
   box-sizing: border-box;
-  padding: 5px;
+  padding: 20px;
   display: flex;
   text-align: left;
 }
