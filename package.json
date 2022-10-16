@@ -1,0 +1,28 @@
+{
+  "name": "tipit",
+  "version": "1.0.0",
+  "description": "TipiT: The Palindromic Tip Calculator - Web Edition",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabriziogiordano/tipit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fabriziogiordano/tipit/issues"
+  },
+  "homepage": "https://github.com/fabriziogiordano/tipit#readme",
+  "dependencies": {
+    "prettier": "^2.7.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": false
+  }
+}
