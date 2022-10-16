@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="120x120" href="./apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+    <link rel="manifest" href="./site.webmanifest">
+    <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#000">
+    <meta name="msapplication-TileColor" content="#000">
+    <meta name="theme-color" content="#000">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#000" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000" media="(prefers-color-scheme: dark)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>TipiT</title>
+    <meta name="description"
+        content="Calculate tips and get the total amout of the bill as palindrome so checking bank statement is gonna be a breeze">
+    <link rel="stylesheet" href="./assets/css/main.css?v=7" />
+    <script src="./assets/js/calc.js?v=7"></script>
+</head>
+
+<body>
+    <div class="content">
+        <div id="top-div" class="show-calculator">
+            <div id="calc-display-x" class="empty"></div>
+            <div class="calc-table">
+                <div onclick="processNumber(1);">1</div>
+                <div onclick="processNumber(2);">2</div>
+                <div onclick="processNumber(3);">3</div>
+
+                <div onclick="processNumber(4);">4</div>
+                <div onclick="processNumber(5);">5</div>
+                <div onclick="processNumber(6);">6</div>
+
+                <div onclick="processNumber(7);">7</div>
+                <div onclick="processNumber(8);">8</div>
+                <div onclick="processNumber(9);">9</div>
+
+                <div onclick="processDot();">.</div>
+                <div onclick="processNumber(0);">0</div>
+                <div class="back" onclick="processBackspace();"> </div>
+            </div>
+        </div>
+
+        <div id="middle-div">
+            Enter the bill amount and <bro> get a tip value so that <br> the total bill is a palindrome.
+        </div>
+
+        <div id="bottom-div">
+            <table class="results-table-header">
+                <thead>
+                    <tr class="calc-results-header">
+                        <th>%</th>
+                        <th>Tip</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="calc-results-scroll">
+                <table class="results-table-scroll">
+                    <tbody id="calc-results-footer">
+                        <!-- Tips -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"><br><br><br><br><br><br><br><br><br></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="tipFullScreenWrapper">
+        <svg onClick="closeTipFullScreen()" id="clear-img" fill="#fff" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24" width="24px" height="24px">
+            <path
+                d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z" />
+        </svg>
+        <div id="tipFullScreenContainer"></div>
+    </div>
+
+</body>
+
+</html>
