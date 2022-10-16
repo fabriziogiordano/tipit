@@ -310,6 +310,7 @@ function trimArray(resultArray) {
 
 function addResults(resultArray) {
   resultArray = trimArray(resultArray);
+  resultArray.reverse();
   for (let i = 0; i < resultArray.length; i++) {
     const tipPercent = resultArray[i].tipPercent;
 
