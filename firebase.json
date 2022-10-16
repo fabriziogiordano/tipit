@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "tipitis",
+    "site": "tipit",
     "public": "public",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
