@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "calltheday-oe"
+  },
+  "hosting": {
+    "site": "tipitis",
+    "public": "public"
+  }
+}

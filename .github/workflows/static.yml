@@ -34,17 +34,17 @@ jobs:
         uses: actions/configure-pages@v2
       - name: Update and minify html,js,css
         run: |
-          sed -i -e "s|COMMIT|${GITHUB_SHA::5}|g" ./index.html
-          sed -i -e "s|main.css|main.min.css|g" ./index.html
-          sed -i -e "s|calc.js|calc.min.js|g" ./index.html
+          # sed -i -e "s|COMMIT|${GITHUB_SHA::5}|g" ./index.html
+          # sed -i -e "s|main.css|main.min.css|g" ./index.html
+          # sed -i -e "s|calc.js|calc.min.js|g" ./index.html
           npm i
-          npm run minify
+          npm run build
           rm -rf ./node_modules
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
-          path: "."
+          path: "./public"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1

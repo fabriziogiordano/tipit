@@ -4,11 +4,12 @@
   "description": "TipiT: The Palindromic Tip Calculator - Web Edition",
   "main": "index.js",
   "scripts": {
-    "minify:js": "minify ./assets/js/calc.js > ./assets/js/calc.min.js",
-    "minify:css": "minify ./assets/css/main.css > ./assets/css/main.min.css",
-    "minify:html": "minify ./index.html > ./index.min.html",
-    "minify": "npm run minify:js && npm run minify:css && npm run minify:html && mv ./index.min.html ./index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "minify:js": "minify ./public/assets/js/calc.js > ./public/assets/js/calc.min.js",
+    "minify:css": "minify ./public/assets/css/main.css > ./public/assets/css/main.min.css",
+    "minify:html": "minify ./public/index.html > ./public/index.min.html",
+    "minify": "npm run minify:js && npm run minify:css && npm run minify:html",
+    "replace:commit": "LAST_COMMIT_SHA=`git log -n1 --format=\"%h\"` && sed -i -e \"s|COMMIT|${LAST_COMMIT_SHA::5}|g\" ./public/index.html",
+    "build": "rm -rf ./public && cp -r ./src ./public && npm run replace:commit && npm run minify"
   },
   "repository": {
     "type": "git",
