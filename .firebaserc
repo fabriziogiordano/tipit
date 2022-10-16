@@ -3,7 +3,7 @@
     "default": "calltheday-oe"
   },
   "hosting": {
-    "site": "tipitis",
+    "site": "tipit",
     "public": "public"
   }
 }
