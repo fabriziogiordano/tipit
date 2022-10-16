@@ -11,13 +11,14 @@
     "mv:js": "mv ./public/assets/js/calc.min.js ./public/assets/js/calc.js",
     "mv:css": "mv ./public/assets/css/main.min.css ./public/assets/css/main.css",
     "mv:html": "mv ./public/index.min.html ./public/index.html",
-    "build": "rm -rf ./public && cp -r ./src ./public && npm run minify && npm run mv:js &&  npm run mv:css && npm run mv:html"
+    "mv": "npm run mv:js && npm run mv:css && npm run mv:html",
+    "build": "rm -rf ./public && cp -r ./src ./public && npm run minify && npm run mv"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fabriziogiordano/tipit.git"
   },
-  "author": "",
+  "author": "Fabrizio Giordano",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/fabriziogiordano/tipit/issues"
