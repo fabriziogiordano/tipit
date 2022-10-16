@@ -424,20 +424,18 @@ function attachSwipeEvent() {
 }
 
 const tipFullScreenWrapperController = new AbortController();
+const prevent = (e) => {
+  e.preventDefault();
+};
+
 function tipZoom(tipPercent, tipAmount, totalAmount) {
   const wrapper = $("#tipFullScreenWrapper");
+  const container = $("#tipFullScreenContainer");
   wrapper.show();
-  window.addEventListener(
-    "touchstart",
-    (e) => {
-      e.preventDefault();
-    },
-    { signal: tipFullScreenWrapperController.signal }
-  );
 
   const color = getColorForPercent(tipPercent);
 
-  $("#tipFullScreenContainer").innerHTML = `
+  container.innerHTML = `
         <div>
             <span>Tip %</span>
             <em style="color: ${color}">${tipPercent}%</em>
@@ -455,6 +453,14 @@ function tipZoom(tipPercent, tipAmount, totalAmount) {
             <i class="dollar">$</i>${totalAmount}
         </div>
     `;
+
+  container.addEventListener("touchstart", prevent, {
+    signal: tipFullScreenWrapperController.signal,
+  });
+
+  container.addEventListener("touchmove", prevent, {
+    signal: tipFullScreenWrapperController.signal,
+  });
 }
 
 function closeTipFullScreen() {
