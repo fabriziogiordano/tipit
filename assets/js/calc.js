@@ -397,6 +397,7 @@ document.addEventListener("DOMContentLoaded", function () {
   clearDisplayText();
   clearResults();
   attachSwipeEvent();
+  attachSnapEvents();
 });
 
 // ------------------------------
@@ -468,4 +469,26 @@ function closeTipFullScreen() {
   $("#tipFullScreenWrapper").hide();
   $("#tipFullScreenContainer").replaceChildren();
   tipFullScreenWrapperController.abort();
+}
+
+// -----------
+
+function attachSnapEvents() {
+  const gallery = $("#paginated_gallery");
+  const gallery_scroller = gallery.querySelector(".gallery_scroller");
+  const gallery_item_size = gallery_scroller.querySelector("div").clientWidth;
+
+  gallery
+    .querySelector(".btn.next")
+    .addEventListener("click", scrollToNextPage);
+  gallery
+    .querySelector(".btn.prev")
+    .addEventListener("click", scrollToPrevPage);
+
+  function scrollToNextPage() {
+    gallery_scroller.scrollBy(gallery_item_size, 0);
+  }
+  function scrollToPrevPage() {
+    gallery_scroller.scrollBy(-gallery_item_size, 0);
+  }
 }
