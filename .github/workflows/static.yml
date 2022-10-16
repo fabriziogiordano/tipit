@@ -33,7 +33,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Update index.html file
-        run: sed -i -e "s|COMMIT|${GITHUB_SHA::5}|g" ./index.html
+        run: |
+          sed -i -e "s|COMMIT|${GITHUB_SHA::5}|g" ./index.html
+          node --version
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
