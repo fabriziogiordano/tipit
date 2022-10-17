@@ -9,34 +9,28 @@ Element.prototype.show = function () {
   this.style.display = "block";
 };
 
-function getDisplayText() {
-  return calcDisplay.innerText;
-}
+function getDisplayText(character) {
+  let text = calcDisplay.innerText;
+  if (character >= 0) text = text + character;
+  if (character === -1) text = text.substring(0, text.length - 1);
 
-function getDisplayValueInCents() {
-  const displayText = getDisplayText();
-  if (displayText === "") {
-    return 0;
+  let textArray = text.replace(".", "").replace("$", "").split("");
+
+  if (textArray.length < 4) {
+    textArray = Array(4 - textArray.length)
+      .fill("0")
+      .concat(textArray);
   }
 
-  const displayTextWithoutDecimal = displayText.replace(".", "");
-
-  const integersOnlyRegEx = new RegExp("^[0-9]*$");
-  if (integersOnlyRegEx.test(displayText)) {
-    return parseInt(displayTextWithoutDecimal, 10) * 100;
+  if (parseInt(textArray[0], 10) === 0) {
+    textArray.shift();
   }
 
-  const oneDecimalRegEx = new RegExp("^[0-9]+[.]{1}[0-9]{1}$");
-  if (oneDecimalRegEx.test(displayText)) {
-    return parseInt(displayTextWithoutDecimal, 10) * 10;
-  }
+  textArray.splice(textArray.length - 2, 0, ".");
 
-  const twoDecimalsRegEx = new RegExp("^[0-9]+[.]{1}[0-9]{2}$");
-  if (twoDecimalsRegEx.test(displayText)) {
-    return parseInt(displayTextWithoutDecimal, 10);
-  }
+  text = textArray.join("");
 
-  return 0;
+  return text;
 }
 
 // --------------------------------------------------
@@ -111,8 +105,8 @@ function getIncrementForLastTotalInCents(lastTotalInCents) {
 // tip values and billTotals.
 // TODO: take in min% and max% values
 
-function getPalindromicValues() {
-  const billAmountInCents = getDisplayValueInCents();
+function getPalindromicValues(currentText) {
+  const billAmountInCents = parseFloat(currentText) * 100;
 
   if (billAmountInCents <= 0) {
     return [];
@@ -133,10 +127,14 @@ function getPalindromicValues() {
   // TODO - Increment by known values
 
   // FIND THE FIRST PALINDROME
-  while (!palindromeFound) {
+  let maxTries = 10000;
+  while (maxTries > 0 && !palindromeFound) {
+    // console.log(maxTries);
+
     lastTipAmountInCents++;
     lastTotalInCents = billAmountInCents + lastTipAmountInCents;
     palindromeFound = isPalindromic(lastTotalInCents);
+    maxTries--;
 
     if (palindromeFound) {
       //lastTipAmountInCents
@@ -150,17 +148,21 @@ function getPalindromicValues() {
 
   while (lastTipAmountInCents <= stopTipAmount) {
     const increment = getIncrementForLastTotalInCents(lastTotalInCents);
+    console.log({ increment });
+
     lastTipAmountInCents += increment;
 
     lastTotalInCents = billAmountInCents + lastTipAmountInCents;
     // We shouldn't need to test for palindromes here
-    //palindromeFound = isPalindromic(lastTotalInCents);
+    let palindromeFound = isPalindromic(lastTotalInCents);
 
-    returnValue.push({
-      tipAmount: lastTipAmountInCents / 100,
-      tipPercent: (100 * lastTipAmountInCents) / billAmountInCents,
-      totalAmount: lastTotalInCents / 100,
-    });
+    if (palindromeFound) {
+      returnValue.push({
+        tipAmount: lastTipAmountInCents / 100,
+        tipPercent: (100 * lastTipAmountInCents) / billAmountInCents,
+        totalAmount: lastTotalInCents / 100,
+      });
+    }
   }
 
   return returnValue;
@@ -183,91 +185,65 @@ function isPalindromic(integerValue) {
 }
 
 function setDisplayText(text) {
-  calcDisplay.innerText = text;
-  calcDisplay.classList.remove("empty");
-}
-
-function bufferIsInteger() {
-  const currentText = getDisplayText();
-  const integersOnlyRegEx = new RegExp("^[0-9]*$");
-  return integersOnlyRegEx.test(currentText);
-}
-
-function bufferIsAtMaxIntegerLength() {
-  const currentText = getDisplayText();
-  const integersOnlyRegEx = new RegExp("^[0-9]{4}$");
-  return integersOnlyRegEx.test(currentText);
-}
-
-function bufferIsComplete() {
-  const currentText = getDisplayText();
-  const completedRegEx = new RegExp("^[0-9]+[.]{1}[0-9]{2}$");
-  return completedRegEx.test(currentText);
+  calcDisplay.innerText = "$" + text;
+  if (text === "0.00") {
+    calcDisplay.classList.add("empty");
+  } else {
+    calcDisplay.classList.remove("empty");
+  }
 }
 
 function processNumber(number) {
   document.getSelection().removeAllRanges();
-  if (bufferIsComplete()) {
-    // Don't do anything
+
+  const currentText = getDisplayText(number.toString());
+
+  if (currentText.length > 8) {
+    calcDisplay.classList.add("shake");
+    setTimeout(() => {
+      calcDisplay.classList.remove("shake");
+    }, 500);
+
+    const error = $("#calc-display-error");
+    error.innerText = "Only supported up to 5 digits";
+    error.show();
+    setTimeout(() => {
+      error.innerText = "";
+      error.hide();
+    }, 2000);
     return;
   }
 
-  if (bufferIsAtMaxIntegerLength()) {
-    // Don't do anything
-    return;
-  }
-
-  let currentText = getDisplayText();
-  if (currentText === "" && number === 0) {
-    // Don't do anything
-    return;
-  }
-
-  currentText = currentText + number.toString();
   setDisplayText(currentText);
-
-  performCalculations();
-}
-
-function processDot() {
-  document.getSelection().removeAllRanges();
-  if (!bufferIsInteger()) {
-    // Don't do anything
-    return;
-  }
-
-  let currentText = getDisplayText();
-  currentText = currentText + ".";
-  setDisplayText(currentText);
+  performCalculations(currentText);
 }
 
 function processBackspace() {
   document.getSelection().removeAllRanges();
-  let currentText = getDisplayText();
-  const currentTextLength = currentText.length;
+  const currentText = getDisplayText(-1);
 
-  if (currentTextLength === 0) {
+  setDisplayText(currentText);
+
+  if (currentText === "0.00") {
+    clearResults();
     return;
   }
 
-  currentText = currentText.substr(0, currentTextLength - 1);
-
-  setDisplayText(currentText);
-  performCalculations();
-
-  if (currentText.length === 0) {
-    calcDisplay.classList.add("empty");
-    clearResults();
-  }
+  performCalculations(currentText);
 }
 
-function performCalculations() {
+function performCalculations(currentText) {
   clearResults();
-  addResults(getPalindromicValues());
+  const decimalPart = parseInt(currentText.split(".")[0], 10);
+  let results = [];
+  if (decimalPart >= 5) {
+    results = getPalindromicValues(currentText);
+  }
+  addResults(results, decimalPart);
 }
 
 function clearDisplayText() {
-  calcDisplay.innerHTML = "";
+  calcDisplay.innerHTML = "$0.00";
   clearResults();
 }
 
@@ -275,6 +251,7 @@ function clearResults() {
   $("#middle-div").show();
   $("#bottom-div").hide();
   $("#calc-results-footer").replaceChildren();
+  if ($("#calc-results-scroll > div")) $("#calc-results-scroll > div").remove();
 }
 
 function formatDecimal(value, places) {
@@ -307,40 +284,54 @@ function trimArray(resultArray) {
   return arr;
 }
 
-function addResults(resultArray) {
-  resultArray = trimArray(resultArray);
-  resultArray.reverse();
-  for (let i = 0; i < resultArray.length; i++) {
-    const tipPercent = resultArray[i].tipPercent;
-
-    const tipPercentFormatted = formatDecimal(tipPercent, 1);
-    const tipAmountFormatted = formatDecimal(resultArray[i].tipAmount, 2);
-    const amountFormatted = formatDecimal(resultArray[i].totalAmount, 2);
-    const tipZoomFn = `tipZoom('${tipPercentFormatted}', '${tipAmountFormatted}', '${amountFormatted}')`;
-
-    let row = document.createElement("tr");
-    row.setAttribute("onclick", tipZoomFn);
-
-    let html = "<td>";
-    html += '<div class="tip-percent" percent="' + tipPercent + '">';
-    html += formatDecimal(tipPercent, 1) + "%";
-    html += "</div>";
-    html += "</td>";
-    html += "<td>";
-    html += "$" + formatDecimal(resultArray[i].tipAmount, 2);
-    html += "</td>";
-    html += "<td>";
-    html += "$" + formatDecimal(resultArray[i].totalAmount, 2);
-    html += "</td>";
-
-    row.innerHTML = html;
-    $("#calc-results-footer").appendChild(row);
+function addResults(resultArray, decimalPart) {
+  if (decimalPart < 5) {
+    $("#calc-results-header").innerText = "Bill amount needs to be above $5";
+  } else {
+    $("#calc-results-header").innerText = "Tap on a row for additional details";
   }
 
-  $(".results-table-scroll>tfoot").show();
-  $("#middle-div").hide();
-  $("#bottom-div").show();
-  refreshTipColors();
+  if (resultArray.length > 0) {
+    resultArray = trimArray(resultArray);
+    resultArray.reverse();
+    if (resultArray.length < 5) {
+      const message = document.createElement("div");
+      const plural = resultArray.length === 1 ? "" : "s";
+      message.innerHTML = `Only ${resultArray.length} palindrome result${plural} available for this bill amout`;
+      $("#calc-results-scroll").prepend(message);
+    }
+    for (let i = 0; i < resultArray.length; i++) {
+      const tipPercent = resultArray[i].tipPercent;
+
+      const tipPercentFormatted = formatDecimal(tipPercent, 1);
+      const tipAmountFormatted = formatDecimal(resultArray[i].tipAmount, 2);
+      const amountFormatted = formatDecimal(resultArray[i].totalAmount, 2);
+      const tipZoomFn = `tipZoom('${tipPercentFormatted}', '${tipAmountFormatted}', '${amountFormatted}')`;
+
+      let row = document.createElement("tr");
+      row.setAttribute("onclick", tipZoomFn);
+
+      let html = "<td>";
+      html += '<div class="tip-percent" percent="' + tipPercent + '">';
+      html += formatDecimal(tipPercent, 1) + "%";
+      html += "</div>";
+      html += "</td>";
+      html += "<td>";
+      html += "$" + formatDecimal(resultArray[i].tipAmount, 2);
+      html += "</td>";
+      html += "<td>";
+      html += "$" + formatDecimal(resultArray[i].totalAmount, 2);
+      html += "</td>";
+
+      row.innerHTML = html;
+      $("#calc-results-footer").appendChild(row);
+    }
+
+    $(".results-table-scroll>tfoot").show();
+    $("#middle-div").hide();
+    $("#bottom-div").show();
+    refreshTipColors();
+  }
 }
 
 function getColorForPercent(tipPercent) {

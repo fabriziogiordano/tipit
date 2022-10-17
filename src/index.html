@@ -30,6 +30,7 @@
     <div class="content">
         <div id="top-div">
             <div id="calc-display-x" class="empty"></div>
+            <div id="calc-display-error"></div>
             <div class="calc-table">
                 <div onclick="processNumber(1);">1</div>
                 <div onclick="processNumber(2);">2</div>
@@ -43,8 +44,8 @@
                 <div onclick="processNumber(8);">8</div>
                 <div onclick="processNumber(9);">9</div>
 
-                <div onclick="processDot();">.</div>
-                <div onclick="processNumber(0);">0</div>
+                <!-- <div onclick="processDot();">.</div> -->
+                <div style="grid-column: span 2;" onclick="processNumber(0);">0</div>
                 <div class="back" onclick="processBackspace();"> </div>
             </div>
         </div>
@@ -548,11 +549,11 @@
                         <th>Total</th>
                     </tr>
                     <tr class="calc-results-header">
-                        <th colspan="3">Tap on a row for additional details</td>
+                        <th colspan="3" id="calc-results-header"></th>
                     </tr>
                 </thead>
             </table>
-            <div class="calc-results-scroll">
+            <div id="calc-results-scroll">
                 <table class="results-table-scroll">
                     <tbody id="calc-results-footer">
                         <!-- Tips -->
