@@ -55,9 +55,9 @@ table {
 }
 
 #middle-div .rev {
-  margin-top: 30px;
+  margin: 0;
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 #bottom-div {

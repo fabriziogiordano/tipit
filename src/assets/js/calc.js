@@ -10,7 +10,7 @@ Element.prototype.show = function () {
 };
 
 function getDisplayText() {
-  return $("#calc-display-x").innerText;
+  return calcDisplay.innerText;
 }
 
 function getDisplayValueInCents() {
@@ -20,7 +20,6 @@ function getDisplayValueInCents() {
   }
 
   const displayTextWithoutDecimal = displayText.replace(".", "");
-  let returnValue = 0;
 
   const integersOnlyRegEx = new RegExp("^[0-9]*$");
   if (integersOnlyRegEx.test(displayText)) {
@@ -184,8 +183,8 @@ function isPalindromic(integerValue) {
 }
 
 function setDisplayText(text) {
-  $("#calc-display-x").innerText = text;
-  $("#calc-display-x").classList.remove("empty");
+  calcDisplay.innerText = text;
+  calcDisplay.classList.remove("empty");
 }
 
 function bufferIsInteger() {
@@ -257,7 +256,7 @@ function processBackspace() {
   performCalculations();
 
   if (currentText.length === 0) {
-    $("#calc-display-x").classList.add("empty");
+    calcDisplay.classList.add("empty");
     clearResults();
   }
 }
@@ -268,7 +267,7 @@ function performCalculations() {
 }
 
 function clearDisplayText() {
-  $("#calc-display-x").innerHTML = "";
+  calcDisplay.innerHTML = "";
   clearResults();
 }
 
@@ -384,16 +383,8 @@ function refreshTipColors() {
   });
 }
 
-function isCalculatorVisible() {
-  const topHalfDivClasses = $("#top-div").attr("class");
-  if (topHalfDivClasses && topHalfDivClasses.indexOf("show-calculator") > -1) {
-    return true;
-  }
-
-  return false;
-}
-
 document.addEventListener("DOMContentLoaded", function () {
+  window.calcDisplay = $("#calc-display-x");
   clearDisplayText();
   clearResults();
   attachSwipeEvent();
@@ -405,19 +396,18 @@ document.addEventListener("DOMContentLoaded", function () {
 function attachSwipeEvent() {
   let scrollXStart = 0;
   let scrollXEnd = 0;
-  const scrollDiv = $("#calc-display-x");
 
-  scrollDiv.addEventListener("touchstart", (e) => {
+  calcDisplay.addEventListener("touchstart", (e) => {
     e.preventDefault();
     scrollXStart = e.touches[0].clientX;
   });
 
-  scrollDiv.addEventListener("touchmove", (e) => {
+  calcDisplay.addEventListener("touchmove", (e) => {
     e.preventDefault();
     scrollXEnd = e.touches[0].clientX;
   });
 
-  scrollDiv.addEventListener("touchend", (e) => {
+  calcDisplay.addEventListener("touchend", (e) => {
     e.preventDefault();
     if (scrollXEnd - scrollXStart > 40) {
       processBackspace();
@@ -490,17 +480,16 @@ function attachSnapEvents() {
     clearInterval(galleryAutoScrollId);
     scroll(gallery_item_size);
   }
+
   function scrollToPrevPage() {
     clearInterval(galleryAutoScrollId);
     scroll(-gallery_item_size);
   }
+
   function scroll(left) {
-    gallery_scroller.scrollBy({
-      top: 0,
-      left,
-      behavior: "smooth",
-    });
+    gallery_scroller.scrollBy({ top: 0, left, behavior: "smooth" });
   }
+
   galleryAutoScrollId = setInterval(() => {
     scroll(gallery_item_size);
   }, 3000);
