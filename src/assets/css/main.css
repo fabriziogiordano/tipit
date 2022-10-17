@@ -242,6 +242,9 @@ table {
   position: relative;
   top: 0;
   left: 10px;
+  font-weight: normal;
+  opacity: 0.9;
+  font-size: 90%;
 }
 
 #clear-img {

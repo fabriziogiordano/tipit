@@ -419,16 +419,20 @@ function attachTipCopyEvent() {
   $("#tipFullScreenWrapper").addEventListener("touchend", (e) => {
     const path = e.composedPath();
     for (let el of path) {
-      if (el.id === "tip_amount") {
+      if (el.id === "tip_amount" || el.id === "total_amount") {
         if (navigator.clipboard) {
-          const tip = el.getAttribute("tip");
-          navigator.clipboard.write(tip).then(
+          const tip = el.getAttribute("amount");
+          navigator.clipboard.writeText(tip).then(
             () => {
-              console.log("copied");
-              el.querySelector("#copy").innerText = "✅ copied";
+              // console.log("copied");
+              const elCopy = el.querySelector(".copy");
+              elCopy.innerText = "✅ copied";
+              setTimeout(() => {
+                elCopy.innerText = "📋 copy";
+              }, 3000);
             },
             () => {
-              console.log("copy error");
+              // console.log("copy error");
             }
           );
         }
@@ -458,12 +462,12 @@ function tipZoom(tipPercent, tipAmount, totalAmount) {
             <span>Bill amount</span>
             <i class="dollar">$</i>${getDisplayText()}
         </div>
-        <div id="tip_amount" tip="${tipAmount}">
-            <span>Tip amount <span id="copy">📋 copy</span></span>
+        <div id="tip_amount" amount="${tipAmount}">
+            <span>Tip amount <span class="copy">📋 copy</span></span>
             <i class="dollar">$</i>${tipAmount}
         </div>
-        <div>
-            <span>Total amount</span>
+        <div id="total_amount" amount="${totalAmount}">
+            <span>Total amount <span class="copy">📋 copy</span></span>
             <i class="dollar">$</i>${totalAmount}
         </div>
     `;
