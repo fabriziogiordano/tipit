@@ -20,3 +20,5 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CALLTHEDAY_OE }}"
           target: tipit
           projectId: calltheday-oe
+      - name: Send Push
+        run: curl -s -F "token=${{ secrets.PUSHOVER_TOKEN }}" -F "user=${{ secrets.PUSHOVER_USER }}" -F "device=iphone_pool" -F "title=TipiT Deployed Firebase" -F "message=New version of http://tipit.web.app ready" https://api.pushover.net/1/messages
