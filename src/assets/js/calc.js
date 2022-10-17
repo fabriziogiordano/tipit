@@ -388,6 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
   clearDisplayText();
   clearResults();
   attachSwipeEvent();
+  attachTipCopyEvent();
 });
 
 // ------------------------------
@@ -414,6 +415,28 @@ function attachSwipeEvent() {
   });
 }
 
+function attachTipCopyEvent() {
+  $("#tipFullScreenWrapper").addEventListener("touchend", (e) => {
+    const path = e.composedPath();
+    for (let el of path) {
+      if (el.id === "tip_amount") {
+        if (navigator.clipboard) {
+          const tip = el.getAttribute("tip");
+          navigator.clipboard.write(tip).then(
+            () => {
+              console.log("copied");
+              el.querySelector("#copy").innerText = "✅ copied";
+            },
+            () => {
+              console.log("copy error");
+            }
+          );
+        }
+      }
+    }
+  });
+}
+
 const tipFullScreenWrapperController = new AbortController();
 const prevent = (e) => {
   e.preventDefault();
@@ -435,8 +458,8 @@ function tipZoom(tipPercent, tipAmount, totalAmount) {
             <span>Bill amount</span>
             <i class="dollar">$</i>${getDisplayText()}
         </div>
-        <div>
-            <span>Tip amount</span>
+        <div id="tip_amount" tip="${tipAmount}">
+            <span>Tip amount <span id="copy">📋 copy</span></span>
             <i class="dollar">$</i>${tipAmount}
         </div>
         <div>
@@ -464,4 +487,8 @@ function closeTipFullScreen() {
 
 function openMiddleDivWrapper() {
   $("#middle-div-more-wrapper").classList.toggle("open");
+}
+
+function copyTipAmout(tip) {
+  console.log(tip);
 }
