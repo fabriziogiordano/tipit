@@ -388,7 +388,6 @@ document.addEventListener("DOMContentLoaded", function () {
   clearDisplayText();
   clearResults();
   attachSwipeEvent();
-  attachSnapEvents();
 });
 
 // ------------------------------
@@ -463,38 +462,6 @@ function closeTipFullScreen() {
 
 // -----------
 
-let galleryAutoScrollId = 0;
-function attachSnapEvents() {
-  const gallery = $("#paginated_gallery");
-  const gallery_scroller = gallery.querySelector(".gallery_scroller");
-  const gallery_item_size = gallery_scroller.querySelector("div").clientWidth;
-
-  gallery
-    .querySelector(".btn.next")
-    .addEventListener("click", scrollToNextPage);
-  gallery
-    .querySelector(".btn.prev")
-    .addEventListener("click", scrollToPrevPage);
-
-  function scrollToNextPage() {
-    clearInterval(galleryAutoScrollId);
-    scroll(gallery_item_size);
-  }
-
-  function scrollToPrevPage() {
-    clearInterval(galleryAutoScrollId);
-    scroll(-gallery_item_size);
-  }
-
-  function scroll(left) {
-    gallery_scroller.scrollBy({ top: 0, left, behavior: "smooth" });
-  }
-
-  galleryAutoScrollId = setInterval(() => {
-    scroll(gallery_item_size);
-  }, 3000);
-
-  $("#paginated_gallery").addEventListener("touchmove", () => {
-    clearInterval(galleryAutoScrollId);
-  });
+function openMiddleDivWrapper() {
+  $("#middle-div-more-wrapper").classList.toggle("open");
 }
