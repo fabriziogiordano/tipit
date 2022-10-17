@@ -210,7 +210,7 @@ function processNumber(number) {
     setTimeout(() => {
       error.innerText = "";
       error.hide();
-    }, 2000);
+    }, 3000);
     return;
   }
 
