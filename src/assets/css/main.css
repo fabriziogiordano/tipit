@@ -17,6 +17,11 @@ h1 {
   margin: 20px;
 }
 
+h2 {
+  font-size: 24px;
+  margin: 20px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -52,6 +57,10 @@ table {
 #middle-div .small {
   font-size: 20px;
   color: rgba(255, 255, 255, 0.9);
+}
+
+#middle-div .qr {
+  font-size: 18px;
 }
 
 #middle-div .rev {
@@ -268,7 +277,7 @@ em {
   min-height: 95%;
   border-radius: 10px;
   border: 0px solid red;
-  font-size: 16px;
+  font-size: 18px;
   box-sizing: border-box;
   padding: 20px;
   display: flex;
@@ -281,6 +290,7 @@ em {
 }
 
 .gallery .btn {
+  display: none;
   position: absolute;
 
   top: 50%;
