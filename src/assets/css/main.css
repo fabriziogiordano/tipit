@@ -51,9 +51,10 @@ table {
 }
 
 #middle-div {
-  margin: 0 30px;
+  padding: 0 30px;
   text-align: center;
   font-size: 24px;
+  box-sizing: border-box;
 }
 
 #middle-div .small {
@@ -275,4 +276,38 @@ em {
 .gallery_scroller div.card span {
   font-size: 200%;
   margin-right: 15px;
+}
+
+/* --------- */
+
+@media (orientation: landscape) {
+  #top-div {
+    position: fixed;
+    width: 40vw;
+    display: inline-block;
+  }
+
+  #calc-display-x {
+    border-right: 1px solid #333;
+  }
+
+  #middle-div {
+    margin-top: 70px;
+    width: calc(100% - 40vw);
+    float: right;
+  }
+
+  #bottom-div {
+    width: calc(100% - 40vw);
+    height: 100vh;
+    float: right;
+  }
+
+  #tipFullScreenContainer {
+    margin: calc((100vh - 300px) / 2) auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 500px;
+    height: 300px;
+  }
 }
