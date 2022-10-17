@@ -23,17 +23,17 @@ function getDisplayValueInCents() {
 
   const integersOnlyRegEx = new RegExp("^[0-9]*$");
   if (integersOnlyRegEx.test(displayText)) {
-    return parseInt(displayTextWithoutDecimal) * 100;
+    return parseInt(displayTextWithoutDecimal, 10) * 100;
   }
 
   const oneDecimalRegEx = new RegExp("^[0-9]+[.]{1}[0-9]{1}$");
   if (oneDecimalRegEx.test(displayText)) {
-    return parseInt(displayTextWithoutDecimal) * 10;
+    return parseInt(displayTextWithoutDecimal, 10) * 10;
   }
 
   const twoDecimalsRegEx = new RegExp("^[0-9]+[.]{1}[0-9]{2}$");
   if (twoDecimalsRegEx.test(displayText)) {
-    return parseInt(displayTextWithoutDecimal);
+    return parseInt(displayTextWithoutDecimal, 10);
   }
 
   return 0;
@@ -124,8 +124,8 @@ function getPalindromicValues() {
   const minTipPercent = 0.08;
   const maxTipPercent = 0.22;
 
-  const startTipAmount = parseInt(billAmountInCents * minTipPercent);
-  const stopTipAmount = parseInt(billAmountInCents * maxTipPercent);
+  const startTipAmount = parseInt(billAmountInCents * minTipPercent, 10);
+  const stopTipAmount = parseInt(billAmountInCents * maxTipPercent, 10);
 
   lastTipAmountInCents = startTipAmount - 1;
 
@@ -172,7 +172,7 @@ function getPalindromicValues() {
 function isPalindromic(integerValue) {
   const valueText = "" + integerValue;
   const fullLength = valueText.length;
-  const halfLength = parseInt(valueText.length / 2);
+  const halfLength = parseInt(valueText.length / 2, 10);
   for (let i = 0; i < halfLength; i++) {
     if (valueText.charAt(i) !== valueText.charAt(fullLength - i - 1)) {
       return false;
@@ -360,12 +360,12 @@ function getColorForPercent(tipPercent) {
     // Between bottom and median - bad service
     tipDelta = medianTip - bottomTip;
     delta = tipPercent - bottomTip;
-    green = parseInt((delta / tipDelta) * 255);
+    green = parseInt((delta / tipDelta) * 255, 10);
     red = 255;
   } else if (tipPercent <= topTip) {
     tipDelta = topTip - medianTip;
     delta = tipPercent - medianTip;
-    red = parseInt(255 - (255 * delta) / tipDelta);
+    red = parseInt(255 - (255 * delta) / tipDelta, 10);
     green = 255;
   } else {
     red = 0;
