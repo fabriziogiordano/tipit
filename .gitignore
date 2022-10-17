@@ -1,6 +1,7 @@
 # Mac Files
 .DS_Store
 
+.firebase/
 node_modules/
 public/
 
