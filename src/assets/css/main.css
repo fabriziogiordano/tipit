@@ -48,6 +48,7 @@ table {
 
 #top-div {
   background-color: #000;
+  cursor: pointer;
 }
 
 #middle-div {
@@ -97,6 +98,7 @@ table {
   height: calc(100vh - 90px - 200px);
   overflow-y: hidden;
   margin-top: 2px;
+  cursor: pointer;
 }
 
 table {
