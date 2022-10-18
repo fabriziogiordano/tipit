@@ -21,11 +21,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-console.log("FireBase Loaded");
+console.log("🔥 up");
 
 window.tipitGlobal = { ga: {} };
 window.tipitGlobal.ga.event = ({ event, params }) => {
   params = { ...params, app_version: window.APP_VERSION };
-  console.log({ event, params });
+  if (window.APP_VERSION === "COMMIT") console.log({ event, params });
   logEvent(analytics, event, params);
 };

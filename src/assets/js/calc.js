@@ -426,6 +426,12 @@ function attachTipCopyEvent() {
               // console.log("copied");
               const elCopy = el.querySelector(".copy");
               elCopy.innerText = "✅ copied";
+
+              window.tipitGlobal.ga.event({
+                event: "copy",
+                params: { type: el.id, tip: tip },
+              });
+
               setTimeout(() => {
                 elCopy.innerText = "📋 copy";
               }, 3000);
