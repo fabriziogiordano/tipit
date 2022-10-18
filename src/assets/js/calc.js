@@ -285,10 +285,10 @@ function addResults(resultArray, decimalPart) {
     $("#calc-results-header").innerText = "Tap on a row for additional details";
   }
 
-  const resultArrayLength = resultArray.length;
-  if (resultArrayLength > 0) {
+  if (resultArray.length > 0) {
     resultArray = trimArray(resultArray);
     resultArray.reverse();
+    const resultArrayLength = resultArray.length;
 
     if (resultArrayLength < 5) {
       const message = document.createElement("div");
@@ -302,22 +302,22 @@ function addResults(resultArray, decimalPart) {
 
       const tipPercentFormatted = formatDecimal(tipPercent, 1);
       const tipAmountFormatted = formatDecimal(resultArray[i].tipAmount, 2);
-      const amountFormatted = formatDecimal(resultArray[i].totalAmount, 2);
-      const tipZoomFn = `tipZoom('${tipPercentFormatted}', '${tipAmountFormatted}', '${amountFormatted}')`;
+      const totalAmountFormatted = formatDecimal(resultArray[i].totalAmount, 2);
+      const tipZoomFn = `tipZoom('${tipPercentFormatted}', '${tipAmountFormatted}', '${totalAmountFormatted}')`;
 
       let row = document.createElement("tr");
       row.setAttribute("onclick", tipZoomFn);
 
       let html = "<td>";
       html += '<div class="tip-percent" percent="' + tipPercent + '">';
-      html += formatDecimal(tipPercent, 1) + "%";
+      html += tipPercentFormatted + "%";
       html += "</div>";
       html += "</td>";
       html += "<td>";
-      html += "$" + formatDecimal(resultArray[i].tipAmount, 2);
+      html += "$" + tipAmountFormatted;
       html += "</td>";
       html += "<td>";
-      html += "$" + formatDecimal(resultArray[i].totalAmount, 2);
+      html += "$" + totalAmountFormatted;
       html += "</td>";
 
       row.innerHTML = html;
