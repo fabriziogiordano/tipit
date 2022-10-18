@@ -6,11 +6,11 @@
 const $ = document.querySelector.bind(document);
 
 // It's bad practice but it is a nice shorthand for this small projects
-Element.prototype.hide = () => {
+Element.prototype.hide = function () {
   this.style.display = "none";
 };
 
-Element.prototype.show = () => {
+Element.prototype.show = function () {
   this.style.display = "block";
 };
 
@@ -400,7 +400,7 @@ function attachSwipeEvent() {
 }
 
 function attachTipCopyEvent() {
-  $("#tipFullScreenWrapper").addEventListener("touchend", (e) => {
+  $("#tip-full-screen-wrapper").addEventListener("touchend", (e) => {
     const path = e.composedPath();
     for (let el of path) {
       if (el.id === "tip_amount" || el.id === "total_amount") {
@@ -435,7 +435,7 @@ function tipZoom(tipPercent, tipAmount, totalAmount) {
   window.tipFullScreenWrapper.show();
   setTimeout(() => window.tipFullScreenWrapper.classList.add("in"), 0);
 
-  const container = $("#tipFullScreenContainer");
+  const container = $("#tip-full-screen-container");
   container.classList.remove("compact");
 
   const billAmount = toFixedNumber(parseFloat(getDisplayText()), 2);
@@ -490,7 +490,7 @@ function tipZoom(tipPercent, tipAmount, totalAmount) {
 // eslint-disable-next-line
 function closeTipFullScreen() {
   window.tipFullScreenWrapper.classList.remove("in");
-  $("#tipFullScreenContainer").replaceChildren();
+  $("#tip-full-screen-container").replaceChildren();
   tipFullScreenWrapperController.abort();
 }
 
@@ -512,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
   attachSwipeEvent();
   attachTipCopyEvent();
 
-  window.tipFullScreenWrapper = $("#tipFullScreenWrapper");
+  window.tipFullScreenWrapper = $("#tip-full-screen-wrapper");
   window.tipFullScreenWrapper.addEventListener("transitionend", () => {
     if (!window.tipFullScreenWrapper.classList.contains("in")) {
       window.tipFullScreenWrapper.hide();
