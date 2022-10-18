@@ -443,29 +443,50 @@ const prevent = (e) => {
 
 function tipZoom(tipPercent, tipAmount, totalAmount) {
   const wrapper = $("#tipFullScreenWrapper");
-  const container = $("#tipFullScreenContainer");
   wrapper.show();
 
+  const container = $("#tipFullScreenContainer");
+  container.classList.remove("compact");
+
+  const billAmount = toFixedNumber(parseFloat(getDisplayText()), 2);
   const color = getColorForPercent(tipPercent);
 
-  container.innerHTML = `
-        <div>
-            <span>Tip %</span>
-            <em style="color: ${color}">${tipPercent}%</em>
-        </div>
-        <div>
-            <span>Bill amount</span>
-            <i class="dollar">$</i>${getDisplayText()}
-        </div>
-        <div id="tip_amount" amount="${tipAmount}">
-            <span>Tip amount <span class="copy">📋 copy</span></span>
-            <i class="dollar">$</i>${tipAmount}
-        </div>
-        <div id="total_amount" amount="${totalAmount}">
-            <span>Total amount <span class="copy">📋 copy</span></span>
-            <i class="dollar">$</i>${totalAmount}
-        </div>
+  let html = `
+    <div>
+        <span>Tip %</span>
+        <em style="color: ${color}">${tipPercent}%</em>
+    </div>
+    <div>
+        <span>Bill amount</span>
+        <i class="dollar">$</i>${billAmount}
+    </div>
+    <div id="tip_amount" amount="${tipAmount}">
+        <span>Tip amount <span class="copy">📋 copy</span></span>
+        <i class="dollar">$</i>${tipAmount}
+    </div>
+    <div id="total_amount" amount="${totalAmount}">
+        <span>Total amount <span class="copy">📋 copy</span></span>
+        <i class="dollar">$</i>${totalAmount}
+    </div>
+  `;
+
+  if (tipPercent < 20) {
+    container.classList.add("compact");
+
+    const extraCash = toFixedNumber(
+      (billAmount * 20) / 100 - tipAmount,
+      2
+    ).toFixed(2);
+
+    html += `
+      <div class="cash">
+        <span>To round to 20% leave cash</span>
+        <i class="dollar">$</i>${extraCash}
+      </div>
     `;
+  }
+
+  container.innerHTML = html;
 
   container.addEventListener("touchstart", prevent, {
     signal: tipFullScreenWrapperController.signal,
