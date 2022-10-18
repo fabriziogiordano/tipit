@@ -106,7 +106,12 @@ function getIncrementForLastTotalInCents(lastTotalInCents) {
 // TODO: take in min% and max% values
 
 function getPalindromicValues(currentText) {
-  const billAmountInCents = parseFloat(currentText) * 100;
+  const billAmountInCents = toFixedNumber(parseFloat(currentText) * 100, 0);
+  // console.log({
+  //   currentText,
+  //   billAmountInCents,
+  //   a: parseFloat(currentText) * 100,
+  // });
 
   if (billAmountInCents <= 0) {
     return [];
@@ -116,10 +121,11 @@ function getPalindromicValues(currentText) {
   let lastTotalInCents = 0;
   let lastTipAmountInCents = 0;
   const minTipPercent = 0.08;
-  const maxTipPercent = 0.22;
+  const maxTipPercent = 0.25;
 
-  const startTipAmount = parseInt(billAmountInCents * minTipPercent, 10);
-  const stopTipAmount = parseInt(billAmountInCents * maxTipPercent, 10);
+  const startTipAmount = toFixedNumber(billAmountInCents * minTipPercent, 0);
+  const stopTipAmount = toFixedNumber(billAmountInCents * maxTipPercent, 0);
+  // console.log({ startTipAmount, stopTipAmount });
 
   lastTipAmountInCents = startTipAmount - 1;
 
@@ -147,8 +153,8 @@ function getPalindromicValues(currentText) {
   }
 
   while (lastTipAmountInCents <= stopTipAmount) {
-    const increment = getIncrementForLastTotalInCents(lastTotalInCents);
-
+    // const increment = getIncrementForLastTotalInCents(lastTotalInCents);
+    const increment = 1;
     lastTipAmountInCents += increment;
 
     lastTotalInCents = billAmountInCents + lastTipAmountInCents;
@@ -289,7 +295,6 @@ function addResults(resultArray, decimalPart) {
   } else {
     $("#calc-results-header").innerText = "Tap on a row for additional details";
   }
-
   if (resultArray.length > 0) {
     resultArray = trimArray(resultArray);
     resultArray.reverse();
@@ -483,6 +488,7 @@ function openMiddleDivWrapper() {
   $("#middle-div-more-wrapper").classList.toggle("open");
 }
 
-function copyTipAmout(tip) {
-  console.log(tip);
+function toFixedNumber(num, digits, base) {
+  var pow = Math.pow(base || 10, digits);
+  return Math.round(num * pow) / pow;
 }
