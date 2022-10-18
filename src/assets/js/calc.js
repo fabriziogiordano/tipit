@@ -55,7 +55,7 @@ function positionIsNine(totalInCents, position) {
 }
 
 // eslint-disable-next-line
-function getIncrementForLastTotalInCents(lastTotalInCents) {
+function __getIncrementForLastTotalInCents__(lastTotalInCents) {
   const totalAsString = lastTotalInCents.toString();
   const totalLength = totalAsString.length;
 
@@ -281,58 +281,63 @@ function trimArray(resultArray) {
 }
 
 function addResults(resultArray, decimalPart) {
-  if (decimalPart < 5) {
-    $("#calc-results-header").innerText = "Bill amount needs to be above $5";
-  } else {
-    $("#calc-results-header").innerText = "Tap on a row for additional details";
+  $("#calc-results-header").innerText =
+    decimalPart < 5
+      ? "Bill amount needs to be above $5"
+      : "Tap on a row for additional details";
+
+  resultArray = trimArray(resultArray);
+  resultArray.reverse();
+  const resultArrayLength = resultArray.length;
+
+  addInformativeMessageOnTable(resultArrayLength, decimalPart);
+
+  for (let i = 0; i < resultArrayLength; i++) {
+    const tipPercent = resultArray[i].tipPercent;
+
+    const tipPercentFormatted = formatDecimal(tipPercent, 1);
+    const tipAmountFormatted = formatDecimal(resultArray[i].tipAmount, 2);
+    const totalAmountFormatted = formatDecimal(resultArray[i].totalAmount, 2);
+    const tipZoomFn = `tipZoom('${tipPercentFormatted}', '${tipAmountFormatted}', '${totalAmountFormatted}')`;
+
+    let row = document.createElement("tr");
+    row.setAttribute("onclick", tipZoomFn);
+
+    let html = "<td>";
+    html += '<div class="tip-percent" percent="' + tipPercent + '">';
+    html += tipPercentFormatted + "%";
+    html += "</div>";
+    html += "</td>";
+    html += "<td>";
+    html += "$" + tipAmountFormatted;
+    html += "</td>";
+    html += "<td>";
+    html += "$" + totalAmountFormatted;
+    html += "</td>";
+
+    row.innerHTML = html;
+    $("#calc-results-footer").appendChild(row);
   }
 
-  if (resultArray.length > 0) {
-    resultArray = trimArray(resultArray);
-    resultArray.reverse();
-    const resultArrayLength = resultArray.length;
+  $(".results-table-scroll>tfoot").show();
+  $("#middle-div").hide();
+  $("#bottom-div").show();
+  refreshTipColors();
+}
 
-    if (resultArrayLength < 5) {
-      const message = document.createElement("div");
-      const plural = resultArrayLength === 1 ? "" : "s";
-      message.innerHTML = `Only ${resultArrayLength} palindrome result${plural} available for this bill amout`;
-      $("#calc-results-scroll").prepend(message);
-    }
-
-    for (let i = 0; i < resultArrayLength; i++) {
-      const tipPercent = resultArray[i].tipPercent;
-
-      const tipPercentFormatted = formatDecimal(tipPercent, 1);
-      const tipAmountFormatted = formatDecimal(resultArray[i].tipAmount, 2);
-      const totalAmountFormatted = formatDecimal(resultArray[i].totalAmount, 2);
-      const tipZoomFn = `tipZoom('${tipPercentFormatted}', '${tipAmountFormatted}', '${totalAmountFormatted}')`;
-
-      let row = document.createElement("tr");
-      row.setAttribute("onclick", tipZoomFn);
-
-      let html = "<td>";
-      html += '<div class="tip-percent" percent="' + tipPercent + '">';
-      html += tipPercentFormatted + "%";
-      html += "</div>";
-      html += "</td>";
-      html += "<td>";
-      html += "$" + tipAmountFormatted;
-      html += "</td>";
-      html += "<td>";
-      html += "$" + totalAmountFormatted;
-      html += "</td>";
-
-      row.innerHTML = html;
-      $("#calc-results-footer").appendChild(row);
-    }
-
-    $(".results-table-scroll>tfoot").show();
-    $("#middle-div").hide();
-    $("#bottom-div").show();
-    refreshTipColors();
-  } else {
+function addInformativeMessageOnTable(resultArrayLength, decimalPart) {
+  const plural = resultArrayLength === 1 ? "" : "s";
+  let messageTxt =
+    decimalPart < 5
+      ? ""
+      : resultArrayLength === 0
+      ? `No palindrome available for this amount`
+      : resultArrayLength > 0 && resultArrayLength < 5
+      ? `Only ${resultArrayLength} palindrome result${plural} available for this bill amout`
+      : "";
+  if (messageTxt.length > 0) {
     const message = document.createElement("div");
-    message.innerHTML = `No palindrome available for this amount`;
+    message.innerHTML = messageTxt;
     $("#calc-results-scroll").prepend(message);
   }
 }
