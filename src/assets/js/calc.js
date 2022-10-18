@@ -1,21 +1,21 @@
 /**
- * The whole code here is terrible. But it's a small project and wanted to move quickly
- * Todo: one day refactor to React or some new JS framework
+ * The whole code here is terrible. But it's a small project and wanted to move quickly.
+ * Todo: one day refactor to React or some new JS framework.
  */
 
 const $ = document.querySelector.bind(document);
 
 // It's bad practice but it is a nice shorthand for this small projects
-Element.prototype.hide = function () {
+Element.prototype.hide = () => {
   this.style.display = "none";
 };
 
-Element.prototype.show = function () {
+Element.prototype.show = () => {
   this.style.display = "block";
 };
 
 function getDisplayText(character) {
-  let text = calcDisplay.innerText;
+  let text = window.calcDisplay.innerText;
   if (character >= 0) text = text + character;
   if (character === -1) text = text.substring(0, text.length - 1);
 
@@ -54,6 +54,7 @@ function positionIsNine(totalInCents, position) {
   return totalString.charAt(position) === "9";
 }
 
+// eslint-disable-next-line
 function getIncrementForLastTotalInCents(lastTotalInCents) {
   const totalAsString = lastTotalInCents.toString();
   const totalLength = totalAsString.length;
@@ -184,23 +185,24 @@ function isPalindromic(integerValue) {
 }
 
 function setDisplayText(text) {
-  calcDisplay.innerText = text;
+  window.calcDisplay.innerText = text;
   if (text === "0.00") {
-    calcDisplay.classList.add("empty");
+    window.calcDisplay.classList.add("empty");
   } else {
-    calcDisplay.classList.remove("empty");
+    window.calcDisplay.classList.remove("empty");
   }
 }
 
+// eslint-disable-next-line
 function processNumber(number) {
   document.getSelection().removeAllRanges();
 
   const currentText = getDisplayText(number.toString());
 
   if (currentText.length > 8) {
-    calcDisplay.classList.add("shake");
+    window.calcDisplay.classList.add("shake");
     setTimeout(() => {
-      calcDisplay.classList.remove("shake");
+      window.calcDisplay.classList.remove("shake");
     }, 500);
 
     const error = $("#calc-display-error");
@@ -379,17 +381,17 @@ function attachSwipeEvent() {
   let scrollXStart = 0;
   let scrollXEnd = 0;
 
-  calcDisplay.addEventListener("touchstart", (e) => {
+  window.calcDisplay.addEventListener("touchstart", (e) => {
     e.preventDefault();
     scrollXStart = e.touches[0].clientX;
   });
 
-  calcDisplay.addEventListener("touchmove", (e) => {
+  window.calcDisplay.addEventListener("touchmove", (e) => {
     e.preventDefault();
     scrollXEnd = e.touches[0].clientX;
   });
 
-  calcDisplay.addEventListener("touchend", (e) => {
+  window.calcDisplay.addEventListener("touchend", (e) => {
     e.preventDefault();
     if (scrollXEnd - scrollXStart > 40) {
       processBackspace();
@@ -428,9 +430,10 @@ const prevent = (e) => {
   e.preventDefault();
 };
 
+// eslint-disable-next-line
 function tipZoom(tipPercent, tipAmount, totalAmount) {
-  tipFullScreenWrapper.show();
-  setTimeout(() => tipFullScreenWrapper.classList.add("in"), 0);
+  window.tipFullScreenWrapper.show();
+  setTimeout(() => window.tipFullScreenWrapper.classList.add("in"), 0);
 
   const container = $("#tipFullScreenContainer");
   container.classList.remove("compact");
@@ -484,12 +487,14 @@ function tipZoom(tipPercent, tipAmount, totalAmount) {
   });
 }
 
+// eslint-disable-next-line
 function closeTipFullScreen() {
-  tipFullScreenWrapper.classList.remove("in");
+  window.tipFullScreenWrapper.classList.remove("in");
   $("#tipFullScreenContainer").replaceChildren();
   tipFullScreenWrapperController.abort();
 }
 
+// eslint-disable-next-line
 function openMiddleDivWrapper() {
   $("#middle-div-more-wrapper").classList.toggle("open");
 }
@@ -508,9 +513,9 @@ document.addEventListener("DOMContentLoaded", () => {
   attachTipCopyEvent();
 
   window.tipFullScreenWrapper = $("#tipFullScreenWrapper");
-  tipFullScreenWrapper.addEventListener("transitionend", () => {
-    if (!tipFullScreenWrapper.classList.contains("in")) {
-      tipFullScreenWrapper.hide();
+  window.tipFullScreenWrapper.addEventListener("transitionend", () => {
+    if (!window.tipFullScreenWrapper.classList.contains("in")) {
+      window.tipFullScreenWrapper.hide();
     }
   });
 });
