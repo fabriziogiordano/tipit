@@ -14,7 +14,7 @@ function getDisplayText(character) {
   if (character >= 0) text = text + character;
   if (character === -1) text = text.substring(0, text.length - 1);
 
-  let textArray = text.replace(".", "").replace("$", "").split("");
+  let textArray = text.replace(".", "").split("");
 
   if (textArray.length < 4) {
     textArray = Array(4 - textArray.length)
@@ -184,7 +184,7 @@ function isPalindromic(integerValue) {
 }
 
 function setDisplayText(text) {
-  calcDisplay.innerText = "$" + text;
+  calcDisplay.innerText = text;
   if (text === "0.00") {
     calcDisplay.classList.add("empty");
   } else {
@@ -242,7 +242,7 @@ function performCalculations(currentText) {
 }
 
 function clearDisplayText() {
-  calcDisplay.innerHTML = "$0.00";
+  calcDisplay.innerHTML = "0.00";
   clearResults();
 }
 
