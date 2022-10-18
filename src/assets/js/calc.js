@@ -148,7 +148,6 @@ function getPalindromicValues(currentText) {
 
   while (lastTipAmountInCents <= stopTipAmount) {
     const increment = getIncrementForLastTotalInCents(lastTotalInCents);
-    console.log({ increment });
 
     lastTipAmountInCents += increment;
 
