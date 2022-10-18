@@ -211,7 +211,7 @@ function processNumber(number) {
     setTimeout(() => {
       error.innerText = "";
       error.hide();
-    }, 3000);
+    }, 2500);
     return;
   }
 
@@ -240,7 +240,7 @@ function performCalculations(currentText) {
   if (decimalPart >= 5) {
     results = getPalindromicValues(currentText);
   }
-  addResults(results, decimalPart);
+  addResults(results, decimalPart, currentText);
 }
 
 function clearResults() {
@@ -280,7 +280,7 @@ function trimArray(resultArray) {
   return arr;
 }
 
-function addResults(resultArray, decimalPart) {
+function addResults(resultArray, decimalPart, currentText) {
   $("#calc-results-header").innerText =
     decimalPart < 5
       ? "Bill amount needs to be above $5"
@@ -323,6 +323,16 @@ function addResults(resultArray, decimalPart) {
   $("#middle-div").hide();
   $("#bottom-div").show();
   refreshTipColors();
+
+  debounce(function () {
+    window.tipitGlobal.ga.event({
+      event: "results",
+      params: {
+        results: resultArray.length,
+        currentText: currentText,
+      },
+    });
+  }, 3000);
 }
 
 function addInformativeMessageOnTable(resultArrayLength, decimalPart) {
@@ -490,6 +500,15 @@ function tipZoom(tipPercent, tipAmount, totalAmount) {
   container.addEventListener("touchmove", prevent, {
     signal: tipFullScreenWrapperController.signal,
   });
+
+  window.tipitGlobal.ga.event({
+    event: "tip_details",
+    params: {
+      tipPercent,
+      tipAmount,
+      totalAmount,
+    },
+  });
 }
 
 // eslint-disable-next-line
@@ -502,6 +521,8 @@ function closeTipFullScreen() {
 // eslint-disable-next-line
 function openMiddleDivWrapper() {
   $("#middle-div-more-wrapper").classList.toggle("open");
+  // eslint-disable-next-line
+  window.tipitGlobal.ga.event({ event: "tell_me_more" });
 }
 
 function toFixedNumber(num, digits, base) {
@@ -524,3 +545,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+let debounceTimer;
+
+const debounce = (callback, time) => {
+  window.clearTimeout(debounceTimer);
+  debounceTimer = window.setTimeout(callback, time);
+};

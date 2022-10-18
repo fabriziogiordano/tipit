@@ -12,7 +12,11 @@
     "mv:css": "mv ./public/assets/css/main.min.css ./public/assets/css/main.css",
     "mv:html": "mv ./public/index.min.html ./public/index.html",
     "mv": "npm run mv:js && npm run mv:css && npm run mv:html",
-    "build": "rm -rf ./public && cp -r ./src ./public && npm run minify && npm run mv"
+    "rollup:bundle": "rollup --bundleConfigAsCjs -c rollup.config.js",
+    "rollup:compress": "minify ./public/assets/js/bundle.js > ./public/assets/js/bundle.min.js",
+    "rollup": "npm run rollup:bundle && npm run rollup:compress && rm ./public/assets/js/bundle.js",
+    "build": "rm -rf ./public && cp -r ./src ./public && npm run minify && npm run mv && npm run rollup",
+    "serve": "cd ./public && python3 -m http.server"
   },
   "repository": {
     "type": "git",
@@ -31,10 +35,15 @@
     "singleQuote": false
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.0.0",
     "eslint": "^8.25.0",
     "minify": "^9.1.0",
     "prettier": "^2.7.1",
+    "rollup": "^3.2.3",
     "stylelint": "^14.14.0",
     "stylelint-config-standard": "^29.0.0"
+  },
+  "dependencies": {
+    "firebase": "^9.12.1"
   }
 }
