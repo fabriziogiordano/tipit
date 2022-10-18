@@ -429,8 +429,8 @@ const prevent = (e) => {
 };
 
 function tipZoom(tipPercent, tipAmount, totalAmount) {
-  const wrapper = $("#tipFullScreenWrapper");
-  wrapper.show();
+  tipFullScreenWrapper.show();
+  setTimeout(() => tipFullScreenWrapper.classList.add("in"), 0);
 
   const container = $("#tipFullScreenContainer");
   container.classList.remove("compact");
@@ -485,7 +485,7 @@ function tipZoom(tipPercent, tipAmount, totalAmount) {
 }
 
 function closeTipFullScreen() {
-  $("#tipFullScreenWrapper").hide();
+  tipFullScreenWrapper.classList.remove("in");
   $("#tipFullScreenContainer").replaceChildren();
   tipFullScreenWrapperController.abort();
 }
@@ -501,9 +501,16 @@ function toFixedNumber(num, digits, base) {
 
 // ------------------------------
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   window.calcDisplay = $("#calc-display-x"); // not the best to use window. but for small projects it's convenient
   clearResults();
   attachSwipeEvent();
   attachTipCopyEvent();
+
+  window.tipFullScreenWrapper = $("#tipFullScreenWrapper");
+  tipFullScreenWrapper.addEventListener("transitionend", () => {
+    if (!tipFullScreenWrapper.classList.contains("in")) {
+      tipFullScreenWrapper.hide();
+    }
+  });
 });
