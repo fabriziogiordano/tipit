@@ -1,3 +1,8 @@
+<!--!
+    This web app was buid for fun over a weekend by Fabrizio Giordano.
+    Buy him a beer: giordano.fabrizio@gmail.com twitter.com/fabrygio
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,9 +36,10 @@
 <body>
     <div class="content">
         <div id="top-div">
-            <div id="calc-display-x" class="empty"></div>
+            <div id="calc-display-x" class="empty">0:00</div>
             <div id="calc-display-error"></div>
             <div class="calc-table">
+                <!-- onclick are web1.0 but they work and do not need too much js dom manipulation -->
                 <div onclick="processNumber(1);">1</div>
                 <div onclick="processNumber(2);">2</div>
                 <div onclick="processNumber(3);">3</div>
@@ -92,6 +98,8 @@
                     <h2>More fun with friends</h2>
                     <div>Share the url or have your friend scan the QR code below.</div>
 
+                    <!-- Is should probably make this an image. But the html is less than 10Kb... why have an extra request. -->
+                    <!-- Caching is less of a concern compared to the page speed load. PS. 100% performance on lighthouse. -->
                     <svg width="296" height="296" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink">
                         <path fill="#000" d="M0 0h296v296H0z" />
@@ -565,6 +573,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
+                            <!-- Yea I should use margin/padding. Bite me. It works to add extra space at the bottom of the page -->
                             <td colspan="3"><br><br><br><br><br><br><br><br><br></td>
                         </tr>
                     </tfoot>

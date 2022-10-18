@@ -335,7 +335,29 @@ em {
   margin-right: 15px;
 }
 
-/* --------- */
+.shake {
+  animation: horizontal-shaking 0.25s infinite;
+}
+
+@keyframes horizontal-shaking {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* ---- Media Queries ----- */
 
 @media (orientation: landscape) {
   #top-div {
@@ -371,26 +393,8 @@ em {
     width: 500px;
     height: 300px;
   }
-}
 
-.shake {
-  animation: horizontal-shaking 0.25s infinite;
-}
-
-@keyframes horizontal-shaking {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(5px);
-  }
-  50% {
-    transform: translateX(-5px);
-  }
-  75% {
-    transform: translateX(5px);
-  }
-  100% {
-    transform: translateX(0);
+  #tipFullScreenContainer.compact div {
+    line-height: 100px;
   }
 }

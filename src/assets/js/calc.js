@@ -1,3 +1,8 @@
+/**
+ * The whole code here is terrible. But it's a small project and wanted to move quickly
+ * Todo: one day refactor to React or some new JS framework
+ */
+
 const $ = document.querySelector.bind(document);
 
 // It's bad practice but it is a nice shorthand for this small projects
@@ -33,8 +38,6 @@ function getDisplayText(character) {
   return text;
 }
 
-// --------------------------------------------------
-
 function totalIsAllNines(totalInCents) {
   const totalString = totalInCents.toString();
   for (let i = 0; i < totalString.length; i++) {
@@ -46,14 +49,10 @@ function totalIsAllNines(totalInCents) {
   return true;
 }
 
-// --------------------------------------------------
-
 function positionIsNine(totalInCents, position) {
   const totalString = totalInCents.toString();
   return totalString.charAt(position) === "9";
 }
-
-// --------------------------------------------------
 
 function getIncrementForLastTotalInCents(lastTotalInCents) {
   const totalAsString = lastTotalInCents.toString();
@@ -107,11 +106,6 @@ function getIncrementForLastTotalInCents(lastTotalInCents) {
 
 function getPalindromicValues(currentText) {
   const billAmountInCents = toFixedNumber(parseFloat(currentText) * 100, 0);
-  // console.log({
-  //   currentText,
-  //   billAmountInCents,
-  //   a: parseFloat(currentText) * 100,
-  // });
 
   if (billAmountInCents <= 0) {
     return [];
@@ -247,11 +241,6 @@ function performCalculations(currentText) {
   addResults(results, decimalPart);
 }
 
-function clearDisplayText() {
-  calcDisplay.innerHTML = "0.00";
-  clearResults();
-}
-
 function clearResults() {
   $("#middle-div").show();
   $("#bottom-div").hide();
@@ -295,16 +284,20 @@ function addResults(resultArray, decimalPart) {
   } else {
     $("#calc-results-header").innerText = "Tap on a row for additional details";
   }
-  if (resultArray.length > 0) {
+
+  const resultArrayLength = resultArray.length;
+  if (resultArrayLength > 0) {
     resultArray = trimArray(resultArray);
     resultArray.reverse();
-    if (resultArray.length < 5) {
+
+    if (resultArrayLength < 5) {
       const message = document.createElement("div");
-      const plural = resultArray.length === 1 ? "" : "s";
-      message.innerHTML = `Only ${resultArray.length} palindrome result${plural} available for this bill amout`;
+      const plural = resultArrayLength === 1 ? "" : "s";
+      message.innerHTML = `Only ${resultArrayLength} palindrome result${plural} available for this bill amout`;
       $("#calc-results-scroll").prepend(message);
     }
-    for (let i = 0; i < resultArray.length; i++) {
+
+    for (let i = 0; i < resultArrayLength; i++) {
       const tipPercent = resultArray[i].tipPercent;
 
       const tipPercentFormatted = formatDecimal(tipPercent, 1);
@@ -335,6 +328,10 @@ function addResults(resultArray, decimalPart) {
     $("#middle-div").hide();
     $("#bottom-div").show();
     refreshTipColors();
+  } else {
+    const message = document.createElement("div");
+    message.innerHTML = `No palindrome available for this amount`;
+    $("#calc-results-scroll").prepend(message);
   }
 }
 
@@ -377,16 +374,6 @@ function refreshTipColors() {
     el.style.backgroundColor = getColorForPercent(percent);
   });
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-  window.calcDisplay = $("#calc-display-x");
-  clearDisplayText();
-  clearResults();
-  attachSwipeEvent();
-  attachTipCopyEvent();
-});
-
-// ------------------------------
 
 function attachSwipeEvent() {
   let scrollXStart = 0;
@@ -503,8 +490,6 @@ function closeTipFullScreen() {
   tipFullScreenWrapperController.abort();
 }
 
-// -----------
-
 function openMiddleDivWrapper() {
   $("#middle-div-more-wrapper").classList.toggle("open");
 }
@@ -513,3 +498,12 @@ function toFixedNumber(num, digits, base) {
   var pow = Math.pow(base || 10, digits);
   return Math.round(num * pow) / pow;
 }
+
+// ------------------------------
+
+document.addEventListener("DOMContentLoaded", function () {
+  window.calcDisplay = $("#calc-display-x"); // not the best to use window. but for small projects it's convenient
+  clearResults();
+  attachSwipeEvent();
+  attachTipCopyEvent();
+});
