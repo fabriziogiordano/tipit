@@ -105,6 +105,13 @@ table {
   width: 100%;
 }
 
+:root {
+  --gradient-deg-x: 180deg;
+  --gradient-deg: 0deg;
+  --gradient-start: #000;
+  --gradient-end: #1a1a1a;
+}
+
 #calc-display-x {
   height: 90px;
   font-size: 50px;
@@ -115,6 +122,12 @@ table {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #000;
+  background: linear-gradient(
+    var(--gradient-deg-x),
+    var(--gradient-start),
+    var(--gradient-end)
+  );
 }
 
 #calc-display-error {
@@ -170,6 +183,11 @@ table {
   grid-template-columns: 1fr 1fr 1fr;
   background-color: #1d1d1d;
   border: 1px solid #000;
+  background: linear-gradient(
+    var(--gradient-deg),
+    var(--gradient-start),
+    var(--gradient-end)
+  );
 }
 
 .calc-table div {
