@@ -7,8 +7,9 @@ import { getAnalytics, logEvent } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  projectId: "calltheday-oe",
+  apiKey: "AIzaSyAdp2SUePA5MzXIk80CLOCX8RIqdUiw3sU",
   appId: "1:678743608491:web:8f7cfa8287ce105430bbee",
+  projectId: "calltheday-oe",
   measurementId: "G-39XDR0NHSS",
 };
 
