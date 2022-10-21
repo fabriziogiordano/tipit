@@ -7,12 +7,7 @@ import { getAnalytics, logEvent } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAdp2SUePA5MzXIk80CLOCX8RIqdUiw3sU",
-  authDomain: "calltheday-oe.firebaseapp.com",
-  databaseURL: "https://calltheday-oe.firebaseio.com",
   projectId: "calltheday-oe",
-  storageBucket: "calltheday-oe.appspot.com",
-  messagingSenderId: "678743608491",
   appId: "1:678743608491:web:8f7cfa8287ce105430bbee",
   measurementId: "G-39XDR0NHSS",
 };
