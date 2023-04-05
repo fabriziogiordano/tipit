@@ -16,7 +16,8 @@
     "rollup:compress": "minify ./public/assets/js/bundle.js > ./public/assets/js/bundle.min.js",
     "rollup": "npm run rollup:bundle && npm run rollup:compress && rm ./public/assets/js/bundle.js",
     "build": "rm -rf ./public && cp -r ./src ./public && npm run minify && npm run mv && npm run rollup",
-    "serve": "cd ./public && python3 -m http.server"
+    "serve": "cd ./public && python3 -m http.server",
+    "publish": "-- It is all managed by GitHub Actions --"
   },
   "repository": {
     "type": "git",
@@ -35,15 +36,15 @@
     "singleQuote": false
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.0.0",
-    "eslint": "^8.25.0",
-    "minify": "^9.1.0",
-    "prettier": "^2.7.1",
-    "rollup": "^3.2.3",
-    "stylelint": "^14.14.0",
-    "stylelint-config-standard": "^29.0.0"
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "eslint": "^8.37.0",
+    "minify": "^9.2.0",
+    "rollup": "^3.20.2",
+    "stylelint": "^15.4.0",
+    "stylelint-config-standard": "^32.0.0"
   },
   "dependencies": {
-    "firebase": "^9.12.1"
+    "firebase": "^9.19.1",
+    "rome": "^12.0.0"
   }
 }
