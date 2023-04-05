@@ -43,10 +43,6 @@ em {
   font-style: normal;
 }
 
-svg {
-  filter: drop-shadow(-2px 2px 10px rgba(255 255 255 / 30%));
-}
-
 .content {
   width: 100%;
   max-width: 100%;
@@ -80,7 +76,7 @@ svg {
 #middle-div .rev {
   margin: 10px 0 40px;
   font-size: 10px;
-  color: rgba(255 255 255 / 45%);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 #middle-div-tell-me-more {
@@ -153,6 +149,7 @@ svg {
 }
 
 @keyframes blink {
+
   0%,
   100% {
     opacity: 0;
@@ -199,7 +196,7 @@ svg {
   background-color: #000;
 }
 
-.calc-results-header > th {
+.calc-results-header>th {
   background-color: #333;
   font-size: 14px;
   width: 33.33%;
@@ -212,16 +209,16 @@ svg {
   overflow-y: scroll;
 }
 
-#calc-results-scroll > div {
+#calc-results-scroll>div {
   margin: 20px 75px;
   text-align: center;
 }
 
-.results-table-scroll > tfoot > td {
+.results-table-scroll>tfoot>td {
   background-color: #000;
 }
 
-#calc-results-footer > tr > td {
+#calc-results-footer>tr>td {
   width: 33.33%;
   background-color: #1d1d1d;
   font-size: 24px;
@@ -229,13 +226,13 @@ svg {
   padding-right: 16px;
 }
 
-#calc-results-footer > tr > td:nth-last-child(-n + 2)::first-letter {
+#calc-results-footer>tr>td:nth-last-child(-n + 2)::first-letter {
   color: rgb(204 204 204);
   font-size: 90%;
   font-weight: 100;
 }
 
-#calc-results-footer > tr > td:first-child {
+#calc-results-footer>tr>td:first-child {
   padding-right: 0;
 }
 
